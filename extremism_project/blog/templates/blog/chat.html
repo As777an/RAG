@@ -1,0 +1,191 @@
+{% extends 'blog/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}Chat with GPT{% endblock %}
+
+{% block content %}
+<style>
+    .form-group {
+        background-color: #fff;
+    }
+
+    .form-group p{
+        white-space: pre-wrap;
+    }
+</style>
+<div class="hero">
+    <div class="hero-body">
+        <h1 class="title has-text-centered has-text-white">{% trans "Chat with GPT" %}</h1>
+    </div>
+</div>
+
+<section class="section has-text-white">
+    {% if gpt_analyze %}
+    <div class="columns is-multiline">
+        <div class="column is-8 is-offset-2 mt-4">
+            <div class="box form-group mb-4" id="chat-messages">
+                <div class="mb-1 border p-4">
+                    <h5 class="mt-0">{% trans "User message" %}</h5>
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+            <form method="post" action="{% url 'post-create' %}">
+                {% csrf_token %}
+                {{ gpt_form|crispy }}
+                {% if show_speech %}
+                <div class="mt-3">
+                    <button id="convertButton" class="btn btn-primary" type="button">{% trans "Play as Audio" %}</button>
+                    <button id="stopSpeechButton" class="btn btn-danger" type="button">{% trans "Stop Speeche" %}</button>
+                </div>
+                {% endif %}
+                <div class="mt-3">
+                    <a href="{% url 'chat' %}" class="btn btn-danger">{% trans "Do not create post" %}</a>
+                    <button class="btn btn-primary" type="submit">{% trans "Create post" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <form method="post" action="{% url 'chat' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div id="record_audio" class="mb-3">
+            <button id="recordButton" class="btn btn-success" type="button">{% trans "Record" %}</button>
+            <button id="stopButton" class="btn btn-danger" type="button">{% trans "Stop" %}</button>
+        </div>
+        <button class="btn btn-primary" type="submit"> {% trans "Submit" %}</button>
+    </form>
+    {% endif %}
+</section>
+{% endblock %}
+{% get_current_language as CURRENT_LANGUAGE %}
+{% block scripts %}
+{% if gpt_analyze %}
+<script>
+    // Function to convert text to speech
+    function convertTextToSpeech() {
+        // Retrieve the message field element
+        const messageField = document.getElementById('id_content');
+
+        // Get the text from the message field
+        const textToSpeak = messageField.value;
+
+        // Create a new SpeechSynthesisUtterance object
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+        // Set the language for speech synthesis (optional)
+        utterance.lang = "{{ CURRENT_LANGUAGE }}"; // Use the current language code here
+
+        // Speak the text
+        speechSynthesis.speak(utterance);
+    }
+
+    // Function to stop speech synthesis
+    function stopSpeech() {
+        speechSynthesis.cancel(); // Stop speech synthesis
+    }
+
+    // Attach the startRecording function to the click event of the record button
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const convertButton = document.getElementById('convertButton');
+        convertButton.addEventListener('click', convertTextToSpeech);
+
+        const stopSpeechButton = document.getElementById('stopSpeechButton');
+        stopSpeechButton.addEventListener('click', stopSpeech);
+    });
+
+</script>
+{% else %}
+<script>
+    // Global variable to store the SpeechRecognition object
+    let recognition;
+    let transcript = '';
+
+    // Function to handle recording audio and transforming it to text
+    function startRecording() {
+        // Check if the browser supports the SpeechRecognition API
+        if (!('webkitSpeechRecognition' in window)) {
+            alert("Speech recognition is not supported by your browser.");
+            return;
+        }
+
+        // Get the current value of the message input field and assign it to transcript
+        const messageField = document.getElementById('id_message'); // Replace 'id_message' with your input field ID
+        transcript = messageField.value;
+
+        // Create a new SpeechRecognition object
+        recognition = new webkitSpeechRecognition();
+        
+        // Set language for speech recognition (replace 'kk-KZ' with your desired language code)
+        recognition.lang = '{{CURRENT_LANGUAGE}}';
+
+        // Continuous recognition
+        recognition.continuous = true;
+
+        // Start recording
+        recognition.start();
+
+        // Handle result when recognition is complete
+        recognition.onresult = function(event) {
+            // Append the new transcript to the existing one
+            transcript += event.results[event.results.length - 1][0].transcript + ' ';
+        };
+
+        // Handle error
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error:', event.error);
+        };
+    }
+
+    // Function to stop the recording process
+    function stopRecording() {
+    if (recognition) {
+        // Stop the recording process
+        recognition.stop();
+        
+        // Wait for a short delay to ensure the last transcription is captured
+        setTimeout(function() {
+            // Insert the transcript into the message input field
+            const messageField = document.getElementById('id_message'); // Replace 'id_message' with your input field ID
+            messageField.value = transcript; // Append the transcript
+            transcript = ''; // Clear the transcript variable
+        }, 500); // Adjust the delay time as needed
+    }
+}
+
+    // Function to toggle the visibility of the channel_name and post_count fields
+    function toggleFieldsVisibility() {
+        const platformSelect = document.getElementById('id_platform');
+        const channelNameField = document.getElementById('div_id_channel_name');
+        const postCountField = document.getElementById('div_id_post_count');
+        const messageField = document.getElementById('div_id_message');
+        const recordAudio = document.getElementById('record_audio');
+
+        // Show the channel_name and post_count fields only if the selected platform is 'telegram'
+        channelNameField.style.display = platformSelect.value === 'telegram' ? 'block' : 'none';
+        postCountField.style.display = platformSelect.value === 'telegram' ? 'block' : 'none';
+        messageField.style.display = platformSelect.value === 'telegram' ? 'none' : 'block';
+        recordAudio.style.display = platformSelect.value === 'telegram' ? 'none' : 'block';
+    }
+
+    // Attach the startRecording function to the click event of the record button
+    document.addEventListener('DOMContentLoaded', function() {
+        const recordButton = document.getElementById('recordButton');
+        recordButton.addEventListener('click', startRecording);
+
+        // Attach the stopRecording function to the click event of the stop button
+        const stopButton = document.getElementById('stopButton');
+        stopButton.addEventListener('click', stopRecording);
+
+        const platformSelect = document.getElementById('id_platform');
+        platformSelect.addEventListener('change', toggleFieldsVisibility);
+
+        // Initial state based on the selected value
+        toggleFieldsVisibility();
+    });
+
+</script>
+{% endif %}
+
+{% endblock %}

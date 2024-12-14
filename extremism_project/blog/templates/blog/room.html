@@ -1,0 +1,113 @@
+{% extends 'blog/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ room.user_1.username }} | {{ room.user_2.username }}{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-body">
+        <h1 class="title has-text-centered has-text-white">{{ room.customer.username }} | {{ room.specialist.username }}</h1>
+    </div>
+</div>
+
+<section class="section has-text-white">
+    <div class="columns is-multiline">
+        <div class="column is-8 is-offset-2">
+            <div class="box form-group" id="chat-messages">
+                {% for message in room_messages %}
+                <div class="mb-1 border p-2">
+                    <h5 class="mt-0">{{ message.author_username }}</h5>
+                    <p>{{ message.body }}</p>
+                    <small class="text-muted">{{ message.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="column is-8 is-offset-2">
+            <div class="box">
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="control">
+                            <input type="text" name="content" id="chat-message-input" class="textinput form-control" placeholder="{% trans 'Your message...' %}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="control">
+                            <button class="btn btn-outline-primary" id="chat-message-submit">{% trans "Submit" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{{ room.pk|json_script:"json-room_id" }}
+{{ room.customer_id|json_script:"json-customer_id" }}
+{{ room.specialist_id|json_script:"json-specialist_id" }}
+{{ request.user.username|json_script:"json-username" }}
+
+<script>
+    const customerId = JSON.parse(document.getElementById('json-customer_id').textContent);
+    const specialistId = JSON.parse(document.getElementById('json-specialist_id').textContent);
+    const userName = JSON.parse(document.getElementById('json-username').textContent);
+    const roomId = JSON.parse(document.getElementById('json-room_id').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + customerId
+        + '/'
+        + specialistId
+        + '/'
+    );
+
+    chatSocket.onclose = function(e) {
+        console.error('The socket closed unexpectedly');
+    };
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+
+        if (data.message) {
+            document.querySelector('#chat-messages').innerHTML += `
+            <div class="mb-1 border p-2">
+                <h5 class="mt-0">${ data.username }</h5>
+                <p>${ data.message }</p>
+                <small class="text-muted">${ data.created_at}</small>
+            </div>
+            `;
+        }
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    // document.querySelector('#chat-message-input').onkeyup = function(e) {
+    //     if (e.keyCode === 13) {
+    //         document.querySelector('#chat-message-submit').click();
+    //     }
+    // };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        e.preventDefault();
+
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': userName,
+            'room_id': roomId
+        }));
+
+        messageInputDom.value = '';
+
+        return false;
+    };
+
+</script>
+{% endblock %}

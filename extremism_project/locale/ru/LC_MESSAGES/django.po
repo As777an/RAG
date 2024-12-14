@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-03 17:35+0500\n"
+"PO-Revision-Date: 2024-04-03 12:35+0000\n"
+"Last-Translator:   <>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: blog/forms.py:26
+msgid "GPT Model"
+msgstr "GPT модел"
+
+#: blog/forms.py:27
+msgid "Platform"
+msgstr ""
+
+#: blog/forms.py:28 blog/forms.py:35
+msgid "Message"
+msgstr ""
+
+#: blog/forms.py:29
+msgid "Channel Name"
+msgstr ""
+
+#: blog/forms.py:30
+msgid "Number of Posts"
+msgstr ""
+
+#: blog/forms.py:34
+msgid "Title"
+msgstr ""
+
+#: blog/services.py:66
+msgid "Сервер перегружен"
+msgstr ""
+
+#: blog/templates/admin/base_site.html:5
+msgid "Translation"
+msgstr "Переводы"
+
+#: blog/templates/blog/base.html:20 blog/templates/blog/base.html:30
+msgid "Django WebApp"
+msgstr ""
+
+#: blog/templates/blog/base.html:39
+msgid "Home"
+msgstr ""
+
+#: blog/templates/blog/base.html:44 blog/templates/blog/chat.html:41
+msgid "Chat with GPT"
+msgstr ""
+
+#: blog/templates/blog/base.html:51
+msgid "Search Here..."
+msgstr "Пойск"
+
+#: blog/templates/blog/base.html:57
+msgid "My Post"
+msgstr "Мой посты"
+
+#: blog/templates/blog/base.html:58
+msgid "New Post"
+msgstr ""
+
+#: blog/templates/blog/base.html:60
+msgid "Log Out"
+msgstr ""
+
+#: blog/templates/blog/base.html:62 users/templates/users/login.html:9
+msgid "Log In"
+msgstr ""
+
+#: blog/templates/blog/base.html:63 users/templates/users/register.html:13
+msgid "Sign Up"
+msgstr ""
+
+#: blog/templates/blog/chat.html:51
+msgid "User message"
+msgstr ""
+
+#: blog/templates/blog/chat.html:58
+msgid "Do not create post"
+msgstr ""
+
+#: blog/templates/blog/chat.html:59
+msgid "Create post"
+msgstr ""
+
+#: blog/templates/blog/chat.html:67 blog/templates/blog/room.html:39
+msgid "Submit"
+msgstr ""
+
+#: blog/templates/blog/home.html:9 blog/templates/blog/rooms.html:9
+msgid "Chats"
+msgstr ""
+
+#: blog/templates/blog/post_confirm_delete.html:8
+msgid "Delete Post"
+msgstr ""
+
+#: blog/templates/blog/post_confirm_delete.html:9
+msgid "Are you sure you want to delete the post"
+msgstr ""
+
+#: blog/templates/blog/post_confirm_delete.html:12
+msgid "Yes, Delete"
+msgstr ""
+
+#: blog/templates/blog/post_confirm_delete.html:13
+msgid "Cancel"
+msgstr ""
+
+#: blog/templates/blog/post_detail.html:22
+msgid "Downlaod"
+msgstr ""
+
+#: blog/templates/blog/post_detail.html:29
+#: users/templates/users/profile.html:21
+msgid "Update"
+msgstr ""
+
+#: blog/templates/blog/post_detail.html:30
+msgid "Delete"
+msgstr ""
+
+#: blog/templates/blog/post_detail.html:73
+msgid "Comment"
+msgstr ""
+
+#: blog/templates/blog/post_detail.html:78
+msgid "Send"
+msgstr ""
+
+#: blog/templates/blog/post_form.html:10
+msgid "Post"
+msgstr ""
+
+#: blog/templates/blog/post_form.html:16
+msgid "Upload"
+msgstr ""
+
+#: blog/templates/blog/posts.html:42 blog/templates/blog/user_posts.html:21
+msgid "First"
+msgstr ""
+
+#: blog/templates/blog/posts.html:43 blog/templates/blog/user_posts.html:22
+msgid "Previous"
+msgstr ""
+
+#: blog/templates/blog/posts.html:55 blog/templates/blog/user_posts.html:34
+msgid "Next"
+msgstr ""
+
+#: blog/templates/blog/posts.html:56 blog/templates/blog/user_posts.html:35
+msgid "Last"
+msgstr ""
+
+#: blog/templates/blog/room.html:33
+msgid "Your message..."
+msgstr "Ваша ."
+
+#: blog/templates/blog/rooms.html:19
+msgid "Join"
+msgstr ""
+
+#: django_web_app/settings.py:128
+msgid "English"
+msgstr ""
+
+#: django_web_app/settings.py:129
+msgid "Russian"
+msgstr ""
+
+#: django_web_app/settings.py:130
+msgid "Kazakh"
+msgstr ""
+
+#: users/admin.py:23
+msgid "Personal info"
+msgstr ""
+
+#: users/admin.py:24
+msgid "Role"
+msgstr ""
+
+#: users/forms.py:19
+msgid "The two password fields didn’t match."
+msgstr ""
+
+#: users/forms.py:23
+msgid "New password"
+msgstr ""
+
+#: users/forms.py:30
+msgid "New password confirmation"
+msgstr ""
+
+#: users/templates/users/login.html:13
+msgid "Login"
+msgstr ""
+
+#: users/templates/users/login.html:18
+msgid "Need An Account?"
+msgstr ""
+
+#: users/templates/users/login.html:18
+msgid "Sign Up Now"
+msgstr ""
+
+#: users/templates/users/logout.html:7
+msgid "Log In Again"
+msgstr ""
+
+#: users/templates/users/profile.html:16
+msgid "Profile Info"
+msgstr ""
+
+#: users/templates/users/register.html:9
+msgid "Join Today"
+msgstr ""
+
+#: users/templates/users/register.html:18
+msgid "Already Have An Account?"
+msgstr "У вас уже есть учетная запись?"
+
+#: users/templates/users/register.html:18
+msgid "Sign In"
+msgstr ""
+
+#: users/views.py:14
+msgid "Your account has been created! You are now able to log in"
+msgstr ""
+
+#: users/views.py:31
+msgid "Your account has been updated!"
+msgstr ""

@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    ports:
+      - 80:8000
+    

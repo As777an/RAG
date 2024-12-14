@@ -1,0 +1,25 @@
+{% extends 'blog/base.html' %}
+{% load i18n %}
+
+{% block title %}Rooms | {% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-body">
+        <h1 class="title has-text-centered has-text-white">{% trans "Chats" %}</h1>
+    </div>
+</div>
+
+<section class="section has-text-white">
+    <div class="columns is-multiline">
+        {% for room in rooms %}
+        <div class="column is-4 has-text-centered">
+            <div class="box">
+                <h2 class="subtitle">{{ room.customer.username }} | {{ room.specialist.username }}</h2>
+                <a href="{% url 'room' room.customer_id room.specialist_id %}">{% trans "Join" %}</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

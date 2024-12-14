@@ -1,0 +1,24 @@
+# LAUNCH
+vboxuser@ubuntu-22:~/Documents$ 							python3 -m venv myenv
+vboxuser@ubuntu-22:~/Documents$ 							source myenv/bin/activate
+(myenv) vboxuser@ubuntu-22:~/Documents$ 						cd extremism_project/
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				pip install -r requirements.txt (v faile loader_chroma.py vse stroki aktivny)
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				cd blog/
+# clear vectorestore (Home/Documents/extremismProject/blog/data/MD/verctorstore)
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project/blog$ 				python3 loader_chroma.py
+# comment line "create_croma(DATA_ROOT, CHROMA_ROOT)" in loader_chroma.py
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project/blog$ 				cd ..
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				ls
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				python3 manage.py runserver
+
+# REEDUCATION
+ctrl^C (stop server)
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$				lsof -i :8000
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$				kill -9 179487 (to stop)
+# clear vectorestore (Home/Documents/extremismProject/blog/data/MD/verctorstore)
+# uncomment line "create_croma(DATA_ROOT, CHROMA_ROOT)" in loader_chroma.py
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				cd blog/
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project/blog$ 				python3 loader_chroma.py
+# comment line "create_croma(DATA_ROOT, CHROMA_ROOT)" in loader_chroma.py
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project/blog$ 				cd ..
+(myenv) vboxuser@ubuntu-22:~/Documents/extremism_project$ 				python3 manage.py runserver
